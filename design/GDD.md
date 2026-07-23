@@ -2,16 +2,16 @@
 
 ## Goal
 
-Survive until the wizards in the middle finish casting a spell that kills all enemies.
+Survive until the wizard in the middle finishes casting a spell that kills all enemies. The player begins by protecting one wizard; a skill-tree upgrade later adds a second wizard and also doubles the wizard's health because there are now 2 wizards.
 
-The cast takes 70 seconds on level 1, +10 seconds per level after (level 2 = 80s, level 3 = 90s, etc.). Levels are meant to be retried: expect the player to attempt level 1 about 4–5 times before beating it, level 2 about 4–6 times, level 3 about 5–6 times, and level 4+ about 5–7 times, upgrading between attempts.
+The wizard you need to protect takes 70 seconds on level 1, +10 seconds per level after (level 2 = 80s, level 3 = 90s, etc.). Levels are meant to be retried: expect the player to attempt level 1 about 4–5 times before beating it, level 2 about 4–6 times, level 3 about 5–6 times, and level 4+ about 5–7 times, upgrading between attempts.
 
 **Win:** when the cast timer completes, lightning strikes every enemy on screen, instantly killing them and ending the level. Show the round summary panel with a "You Win" title.
 
-**Loss:** the level ends as a game loss if either the player dies or the wizards in the middle die.
+**Loss:** the level ends as a game loss if either the player dies or any wizard in the middle dies.
 
 - Player health default: 8
-- Wizards (middle) health at start: 12
+- Wizards (middle) health at start: 12 each; one wizard by default, two after the relevant skill-tree upgrade
 - Enemy health default: 4
 - First boss health: 40
 
@@ -19,7 +19,7 @@ The cast takes 70 seconds on level 1, +10 seconds per level after (level 2 = 80s
 
 1. **Main menu** — Play, Settings, Quit.
 2. **Pre-wave phase** — place towers/barricades before starting the wave. On level 1 the player has none available, so all they can do is start the wave.
-3. **Main loop** — survivor-like gameplay: WASD movement, auto-casting, defend yourself and the wizards until the spell finishes.
+3. **Main loop** — survivor-like gameplay: WASD movement, auto-casting, defend yourself and the wizard(s) until the spell finishes.
 4. **Round summary** — panel overlay on win or loss.
 5. **Skill tree screen** — spend acquired resources on upgrades, then a button returns to the pre-wave tower placement phase.
 
@@ -27,30 +27,30 @@ The cast takes 70 seconds on level 1, +10 seconds per level after (level 2 = 80s
 
 An "entrance" is a screen edge where enemies spawn off-screen and enter from that side.
 
-- Levels 1–2: one entrance (Helm's Deep style — defend against waves from a single direction).
+- Levels 1–2: one entrance (defend against waves from a single direction).
 - Levels 3–5: two entrances, in various combinations.
 - Levels 6–9: three entrances.
 - Levels 10–13: four entrances.
 
 ## Arena & Camera
 
-The arena is somewhat large — about 2 screens across and 2 screens down — but small enough that the player can always see the wizards in the middle. The camera follows the player and tries to keep both the player and the wizards in view. The player cannot walk outside the camera bounds.
+The arena is somewhat large — about 2 screens across and 2 screens down — but small enough that the player can always see the wizard(s) in the middle. The camera follows the player and tries to keep both the player and the wizard(s) in view. The player cannot walk outside the camera bounds.
 
 ## Gameplay
 
-The player moves with WASD and auto-casts everything. Their spells kill things in their vicinity, like in Vampire Survivors.
+The player character is a warrior. They move with WASD and auto-cast everything. Their spells kill things in their vicinity, like in Vampire Survivors. Use sprites from `EPIC RPG World Pack - Grass Land V. 1.6\Characters\Warrior`.
 
 There is no leveling up during gameplay — upgrades are bought on the skill tree screen between attempts. Enemies drop XP gems that the player walks over to pick up. XP from collected gems is always kept, win or lose, and can only be spent at the skill tree step between runs.
 
 **Dash (Space):** quickly moves the player in the direction they are already moving. No i-frames.
 
-### Player abilities (TODO)
+### Player abilities
 
-Still being decided. Mechanically similar to Vampire Survivors: automatic attacks/effects that trigger on their own and usually damage enemies. A later pass will fill in the specific ability list, values, and visuals.
+Player attacks, the warrior's movement presentation, and the full skill-tree node catalog are defined in [Player.md](Player.md). The player begins with the automatic Slash attack; upgrade-unlocked attacks use the same movement-compatible auto-cast model.
 
 ## Enemy Behaviour
 
-Enemies generally move toward the wizards in the middle to attack them. But if the hero is within enemy attack range × 1.3, they will target the hero for at least 5 seconds.
+Enemies generally move toward the wizard(s) in the middle to attack them. But if the warrior is within enemy attack range × 1.3, they will target the warrior for at least 5 seconds.
 
 After level 1, 20% of enemies are ranged.
 
@@ -58,13 +58,9 @@ After level 1, 20% of enemies are ranged.
 
 **Ranged attack:** same wind-up pattern, but instead of a hitbox the enemy creates a moving projectile.
 
-### Enemy roster (TODO)
+### Enemy & boss roster
 
-Specific enemies, attack patterns, animations, and values to be filled in by a later pass.
-
-### Bosses (TODO)
-
-Bosses appear at level 2 or later. Specific bosses, patterns, and values to be filled in by a later pass.
+All enemy and boss definitions, including their art sources, initial health, attack power, damage, movement speed, attack speed, and attack patterns, live in [Enemies.md](Enemies.md). Bosses appear at level 2 or later.
 
 ## Spawning & Waves
 
@@ -112,12 +108,12 @@ Four main directions:
 - **Up — player power:** faster movement, more player damage, more health, more player projectiles.
 - **Down — towers and barricades:** unlock placement, plus more health and damage, slow effects, AoE damage. Each level 1 tower starts at 30% of the player's level 1 power, slowly increasing up to 100% of the player's damage.
 - **Left — XP and rewards:** increased XP and rewards for beating the level; chance for enemies to drop health orbs; enemies drop more XP.
-- **Right — the mages in the middle:** they cast spells for you when certain conditions are met — for example, emitting a shockwave that pushes and slows enemies when enemies get close. They auto-cast their spells when appropriate. Their spells defend themselves and rarely kill close, threatening enemies in case something slips through the other defenses — they are not for killing the majority of the enemies.
+- **Right — the wizard(s) in the middle:** they cast spells for you when certain conditions are met — for example, emitting a shockwave that pushes and slows enemies when enemies get close. They auto-cast their spells when appropriate. Their spells defend themselves and rarely kill close, threatening enemies in case something slips through the other defenses — they are not for killing the majority of the enemies. One wizard is present by default; the tree can upgrade this to two.
 
-### Skill tree first pass (TODO)
+### Skill tree first pass
 
-An LLM should make a first pass at authoring the full tree as a CSV, listing all the different node types.
+The complete first-pass node catalog is in [Player.md](Player.md). It should be authored as a CSV during implementation.
 
 ### Wizard (middle) abilities (TODO)
 
-Still being decided, same status as player abilities: conditional auto-cast defensive spells. A later pass will fill in the specific list and values.
+Still being decided, same status as player abilities: conditional auto-cast defensive spells. A later pass will fill in the specific list and values. Use sprites from `C:\GameDev\GMTK_Kirkland_2026\SourceArt\Epic RPG World - The Village V2.0\NPCs\old wise wizard`.

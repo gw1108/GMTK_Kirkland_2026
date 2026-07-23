@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="15" nextobjectid="386">
+ <tileset firstgid="1" source="Tilesets/Highlands-Tileset - platformV1-3tiles tall.tsx"/>
+ <tileset firstgid="257" source="Tilesets/Highlands-Tileset - platformV2-3tiles tall.tsx"/>
+ <tileset firstgid="539" source="Tilesets/Highlands-Tileset - platformV1-2tiles tall.tsx"/>
+ <tileset firstgid="779" source="Tilesets/Highlands-Tileset - platformV2-2tiles tall.tsx"/>
+ <tileset firstgid="1019" source="Tilesets/Terrain - Highlands.tsx"/>
+ <tileset firstgid="3983" source="Tilesets/Highlands-Tileset - platform-raw-3tiles tall.tsx"/>
+ <tileset firstgid="4239" source="Tilesets/Highlands-Tileset - platform-raw-2tiles tall.tsx"/>
+ <tileset firstgid="4479" source="Tilesets/Highlands-Tileset - platformV3-2tiles tall.tsx"/>
+ <tileset firstgid="4719" source="Tilesets/Highlands-Tileset - fortress-3tiles tall.tsx"/>
+ <layer id="13" name="walls" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztlE1IFGEYgGe1Y7U6k6dEzbVbRVgRFGFsSlHQmimZHcyforr0a4cumV266a4RQQdbjS4edCm6dNC0gqLAnwgqLf8S+gML6lrP176L09cMFmOy0L7w8H7zvcO8z76z3xhGKuYjMiFdyNJrPsN4AFm+hff62R9MCAh9sMjmZkIAlmmO2WmG8UbISfv9uYv5sUtgabo3vxU2twT3pTaJT4GQDyt9s26rYIuwRnNcjlM2rIYcyPXg6OQ3JbVhm1uBzW+zzS1Bkc1vVNwSvPbg9xgKbW7r4anUnuAzCBYMwQbxG53D7xk+r8RtBIo8+L2EhxCGK1Cs+kttBJ8gXIZHUCJ+07h8sLnthrc2vyl8BuAaDELIg997eA5RuAnl8ElqH/EpgxvwAirE7xsuY9AFnTAOX7UzMoZTJ4x7PB8qpiEGd6Beq9XidBvead+XGXx64C58dji//1u0+Q2jLsMwIn7negu1Oj6WkQznejO1bXxI90JTpvM956mts7gPLpp/7taCU4i+MXI7dGiOyi1Ezxi51MGxkb0i+sXI7aoOrZqjcmuEw7idgSbWJ4W5nLvw6fbH/RRlWv8acVN0Q5nWew/PDWfG/cJCUOvVzPVpHMLks+Q6WUfhOOsWcqHl7FdFz2q4h9tBcr82v0r69bIfhT7Yr/nt4Nkh1UvcSlnv0vzauL4ODTicsuJzVI7KuR5qodVlfsfoOYBTHnmIPKz5HaFnOeTDEPcc1fwqeW4xmGBBCRzQenVx3W1zvCBzPAQ1koMu8ztHzzGc1pInyJMOZ6Qep0KYcDkf5fTLhwBUOMyhh71euGTG5xUx4/NrkPes3rHb+1Uxg9NWen9xOb/zEQN4XJX/XIO8W7U+ITN0m99Chjon1dasn1q3s/cdOv7im/OvYhM+MfNXNrLnh1tJ4LcTD0t8MiRvh1zoTwK/KjwC4pMneV8S/O9SkYpUpCKZ4gddX6Dz
+  </data>
+ </layer>
+ <layer id="14" name="Tile Layer 2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztlk9PE1EURx9iMzMtsDdt+QZuQU0MG0DjhhRa/mxduCYkLNyokbCS0oadBN1T3bCGHVBgR9R+AIryCWAJw7l5d9IBauIMEkiYX3Ly2sm8d8/cN8k8Y5LclzxKGVNK3XydD64xI1B1L17/zP/X8MW9OkfcRqEY0bHAvdkI9y9QuwwbMAev3JbbMnR7xqy0cdykxhbUYecf6xViPNM8dT+q3zrsqccPxl9KA9606eEpNfwIvYjzTEvUPVY/8ZxSj6/qJv37+Re/ODmN4CZ5Qn1f/U7gmWevDzF2edavB154/8cvTsTxsddyCyKOw7fsliRJkiRJ7ldGHWOe8r3MOpacc9tGrYjbGCwqdaio3wHONdj1LN8unTuaaa5nLN/T1/PoZP476AmtE7iJUxE6XEu/evg4VZUS9Ia+7TXWOYTxjOUPv49iOjZY9yFzB6AbHF3nE04LUFZHcduR3jGuQhMOZd89O9bDZ48uY/Lq1gs5qGfi+e2z7nOcUmk7ZtRvC5dt9Qvo096dqVPQOxnDfr46idtv7WNcv1nmD6vfe3gb2odpt7Wv0rtdx7530jvxyirjMBHyW8SlFPKbYKzG9JO8ZI1BWLv0jpzhM4OLr/sqCd67wC0P223OleL4gH2uME5ewy1qyrgUdX/z2rvKHTv3iqOh1x3pi/ua5O7kHIaxbU4=
+  </data>
+ </layer>
+</map>

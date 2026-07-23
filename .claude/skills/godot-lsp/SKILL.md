@@ -1,6 +1,7 @@
 ---
 name: godot-lsp
 description: Query the Godot GDScript language server via JSON-RPC (hover, symbols, definitions, diagnostics), manage the headless LSP server, and run the zero-warning audit on .gd files. Use for GDScript static analysis, symbol lookup, or checking warnings before committing.
+model: opus
 ---
 
 # Godot LSP (GDScript language server)

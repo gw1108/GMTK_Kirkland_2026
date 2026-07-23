@@ -36,6 +36,7 @@ Abilities the warrior player and the wizards that the player is defending have t
 - **Projectile Duration:** The duration that a projectile lives before being destroyed. By default it is 20 seconds.
 - **Charges:** If an ability specifies it can build up charges or start the level with charges. Charges are expended on activation. By default, the cooldown stat determines how much time before 1 charge is replenished.
 - **Animation Speed**: Only slash attacks benefit from this. Default is 100%. But if it is increased to 200% the animation is played twice as fast.
+- **Armor Penetration**: Increased amount of armor that is ignored. Similar to Accuracy.
 
 The warrior player, the wizards, structures, and enemies also have the following generic stats that apply to themselves.
 
@@ -43,7 +44,8 @@ The warrior player, the wizards, structures, and enemies also have the following
 - **Invulnerable:** Some barricades or traps are invulnerable and cannot take damage. They can still die if they are consumed when they are triggered if they are a trap.
 - **Armor:** A % reduction to incoming damage. Max 90%.
 - **Evasion:** A chance to avoid incoming damage. Max 90%.
-- **Accuracy:** A % reduction to the enemies evasion stat. For example if the enemy has 50% evasion but the player has 60% accuracy the chance to hit is 110%. Chance to hit beyond 100% is wasted.
+- **Accuracy:** A % reduction to the enemy's evasion stat. For example if the enemy has 50% evasion but the player has 60% accuracy the chance to hit is 110%. Chance to hit beyond 100% is wasted.
+- **Armor Penetration**: A % reduction to the enemy's armor stat. Similar to accuracy.
 - **Increased Damage:** A generic % increased damage to all abilities.
 - **Increased Crit Chance:** A generic % increased crit chance. For example, if the player upgrades enough nodes for 110% increased crit chance and they use an ability with base 5% crit chance, their chance to crit would be 10.5%.
 - **Increased Crit Damage Bonus:** A generic % increased crit damage bonus. For example, if the player upgrades enough nodes for 100% increased crit damage bonus and they use an ability with 150% base crit damage bonus they will multiply their final damage by 2=(50% * 2 + 1)
@@ -71,7 +73,7 @@ These attacks are unlocked by skill-tree nodes and use the same automatic, movem
 | Attack family | Targeting and behavior | Non-upgrade hooks |
 | --- | --- | --- |
 | "Ice Volley": Thrown weapon uses Ice Effect 01, IceVfx 1 as the projectile. | A projectile fires toward the nearest enemy. When adding multiple projectiles they fire sequentially one after the other using the projectile interval = 0.2s. | Does not benefit from Area or Duration. |
-| Defensive bubble shield. which uses the pipo-btleffect208_192.png animation when the player would take damage from a hit. | It plays in the direction that the player got hit from either left or right (animation is default left). For each upgrade the player will reduce incoming damage to 0. Does not recharge or replenish during the level. Starts with charges = to the number of times it has been upgraded with + charges. | Does not benefit from most upgrades except charges = 1 by default. Has 0 base cooldown. |
+| "Bubble Shield": Defensive bubble shield. which uses the pipo-btleffect208_192.png animation when the player would take damage from a hit. | It plays in the direction that the player got hit from either left or right (animation is default left). For each upgrade the player will reduce incoming damage to 0. Does not recharge or replenish during the level. Starts with charges = to the number of times it has been upgraded with + charges. | Does not benefit from most upgrades except charges = 1 by default. Has 0 base cooldown. |
 
 ### Combo Slash upgrade
 
@@ -87,40 +89,21 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 | --- | --- |
 | Slash damage | Increases base Slash damage. |
 | Slash interval | Reduces the time between Slash attacks. |
-| Slash range | Extends the forward reach of Slash. |
-| Slash arc | Widens the Slash hit arc. |
 | Slash knockback | Pushes enemies hit by Slash farther away. |
 | Combo Slash | Replaces the single-swing Slash with `warrior-full combo attack with 3 swings.png`. The second and third swings deal +2 and +4 base damage respectively. |
 | Critical chance | Increases the chance for player attacks to critically hit. |
 | Critical damage | Increases the damage multiplier of critical hits. |
 | Armor penetration | Ignores more enemy armor when armor is introduced. |
 | Warrior health | Increases maximum player health. |
-| Health regeneration | Restores player health over time. |
-| Damage reduction | Reduces incoming damage to the warrior. |
+| Increased Armor | Increases the warrior's armor. |
 | Move speed | Increases warrior movement speed. |
 | Dash distance | Increases the Space-dash travel distance. |
 | Dash recovery | Reduces the wait before dashing again. |
-| Sway control | Improves movement-sway responsiveness and reduces the time to return to rest; presentation-only. |
-| Auto-target range | Lets automatic player attacks acquire enemies farther away. |
-| Cleave unlock | Unlocks the Cleave attack family. |
-| Cleave damage | Increases Cleave damage. |
-| Cleave area | Increases Cleave arc width and reach. |
-| Whirlwind unlock | Unlocks the Whirlwind attack family. |
-| Whirlwind radius | Increases Whirlwind radius. |
-| Whirlwind damage | Increases Whirlwind damage. |
-| Thrown weapon unlock | Unlocks the Thrown weapon attack family. |
+| Thrown weapon unlock | Unlocks the "Ice Volley" Thrown weapon attack. |
 | Projectile count | Adds projectiles to player projectile attacks. |
 | Projectile damage | Increases player projectile damage. |
 | Projectile speed | Increases player projectile speed. |
-| Projectile lifetime | Increases projectile travel time. |
-| Projectile pierce | Allows projectiles to pass through more enemies. |
-| Returning weapon unlock | Unlocks the Returning weapon attack family. |
-| Return distance | Increases the outward travel distance of returning weapons. |
-| Return speed | Increases the speed of a returning weapon's return path. |
-| Ground shockwave unlock | Unlocks Ground shockwave. |
-| Shockwave force | Increases Ground shockwave knockback. |
-| Retaliation burst unlock | Unlocks Retaliation burst. |
-| Retaliation cooldown | Reduces the cooldown of Retaliation burst. |
+| Projectile pierce | Increases projectile pierce stat to pass through more enemies. |
 
 ### Down: towers and barricades
 
@@ -149,41 +132,22 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 
 | Node type | Effect |
 | --- | --- |
-| Gem XP value | Increases XP gained from every collected XP gem. |
+| Gem XP value | Increases XP gained from collected XP gems which drop from enemies. |
 | Gem pickup range | Increases the distance at which the warrior collects XP gems. |
-| Gem attraction speed | Increases how quickly loose XP gems move to the warrior. |
-| Enemy XP-drop chance | Increases the chance that an enemy drops an XP gem. |
-| XP-gem quantity | Increases the number of XP gems produced by a successful drop. |
-| Health-orb drop chance | Increases the chance for enemies to drop health orbs. |
-| Health-orb value | Increases the health restored by a health orb. |
-| Win XP reward | Increases the XP reward for winning a level. |
-| First-clear XP bonus | Increases the one-time XP bonus for a level's first completion. |
-| Treasure reward chance | Increases the chance that a boss/treasure event grants an extra non-red reward. |
+| Enemy XP-drop chance | Increases the chance that an enemy drops an extra XP gem. This is a surpassing chance so if it is 150% the enemy will drop 2 xp gems and a 50% chance to drop an additional one for a total of 3 xp gems. |
+| Additional XP Reward | Adds a flat XP reward at the end of the level. |
+| Win XP reward | Increases the XP reward at the end of the level by a %. |
+| Win XP multiplier| % more xp reward at the end of the level. |
 
 ### Right: wizard(s) in the middle
 
 | Node type | Effect |
 | --- | --- |
-| Second wizard unlock | Adds the second middle wizard. This is the branch's major red-gem unlock. |
+| Second wizard unlock | Adds the second middle wizard. This is the branch's major red-gem unlock. The second wizard passively doubles the health of the wizards. |
 | Wizard health | Increases each wizard's maximum health. |
 | Wizard armor | Increases each wizard's damage mitigation. |
-| Wizard health regeneration | Restores each wizard's health over time. |
-| Wizard auto-cast interval | Reduces the wait between wizard spells. |
-| Wizard spell range | Increases the range at which wizards react to threats. |
-| Wizard shockwave unlock | Unlocks the close-threat push-and-slow shockwave. |
-| Shockwave radius | Increases shockwave radius. |
-| Shockwave force | Increases shockwave pushback. |
-| Shockwave slow | Increases shockwave slow strength and duration. |
-| Wizard barrier unlock | Unlocks a temporary defensive barrier around a threatened wizard. |
-| Barrier health | Increases barrier durability. |
-| Barrier duration | Increases barrier duration. |
-| Emergency blast unlock | Unlocks a close-range emergency blast for enemies that reach the wizard. |
-| Emergency blast damage | Increases emergency-blast damage. |
-| Emergency blast cooldown | Reduces the emergency-blast cooldown. |
-| Wizard projectile unlock | Unlocks a low-frequency defensive projectile for distant threats. |
-| Wizard projectile count | Adds projectiles to the wizard's defensive cast. |
-| Wizard projectile damage | Increases wizard-projectile damage. |
-| Wizard spell area | Increases the area of wizard spells that have an area effect. |
+| Wizard auto-cast interval | Reduces the wait before the wizard casts the ultimate spell to beat the level. |
+| Wizard barrier unlock | Unlocks a temporary defensive barrier around a threatened wizard. Same as the player's "Bubble Shield" which prevents damage. |
 
 ## Implementation handoff
 

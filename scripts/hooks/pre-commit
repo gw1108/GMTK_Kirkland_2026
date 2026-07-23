@@ -1,0 +1,9 @@
+#!/bin/sh
+# GDScript zero-warning gate: audits every staged .gd file via the Godot LSP
+# and blocks the commit if any error or warning is reported.
+# First run boots a headless Godot editor (left running for fast later commits;
+# stop it with: python scripts/godot_lsp.py stop).
+#
+# Install (from repo root):  cp scripts/hooks/pre-commit .git/hooks/pre-commit
+repo_root=$(git rev-parse --show-toplevel) || exit 1
+exec python "$repo_root/scripts/tests/audit_lsp_warnings.py" --host 127.0.0.1 --port 6005 --staged

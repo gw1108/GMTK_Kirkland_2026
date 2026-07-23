@@ -12,6 +12,8 @@ The role of this file is to describe common mistakes and confusion points that a
 When you touch code that still hardcodes a tunable, migrate that value to `balance.csv` as part of your change. (`get_value` returns floats only — non-scalar tunables like a Vector2 get one row per component or a single uniform-scale row.)
 - **Dev/debug tooling is the exception:** it is fine to add tooling that makes debugging, testing, or authoring easier (agent-play harnesses, debug overlays, cheat toggles, etc.).
 - **When work is reported done, actually double-check it.** Don't blindly trust an "all N entries covered" style claim — from a subagent, a script, or yourself. Verify completion against ground truth (count outputs, diff against the expected set, run the status check) before reporting done.
+- In files and in chat, including inside code blocks, Claude writes text as continuous lines with no hard wrapping at fixed column widths and no leading-space alignment. Structural formatting (headers, separators, indented lists) is fine.
+- Any text the user will copy from the chat (drafts, messages, code, structured content) always goes in a code block so formatting and spacing are preserved.
 
 ---
 
@@ -44,6 +46,24 @@ This is Godot 4.7
 - **Game size: the Godot base viewport is 960×540** (window can stretch). Size art for that: author/import at roughly 2× the largest on-screen size, not at whatever resolution a generator emits — do NOT ship 1024×1024 masters for every sprite; downscale on import. When generating art with agy, bundle related images (animation poses, growth stages, icon families) into one equal-cell sprite-sheet request instead of one request per image.
 
 ---
+
+## GDScript LSP tooling (`scripts/`)
+
+The Godot editor serves a GDScript language server on TCP `127.0.0.1:6005`. The tools below auto-boot a headless editor when nothing is listening (and reuse the GUI editor's server if it's open). See the `godot-lsp` skill for full usage.
+
+- Server: `python scripts/godot_lsp.py status|start|stop` (env overrides: `GODOT_EXE`, `GODOT_LSP_HOST`, `GODOT_LSP_PORT`).
+- JSON-RPC agent API: `python scripts/lsp_rpc.py --open game/foo.gd textDocument/documentSymbol` (also `hover`/`definition` with `--pos LINE:COL`); or `from godot_lsp import rpc` in Python.
+
+### Audit Compiler Warnings (LSP Audit)
+- Ensure all modified files achieve zero warning compliance in Godot's Language Server.
+- Boot the LSP server and execute the audit script locally:
+
+  ```powershell
+  python scripts/tests/audit_lsp_warnings.py --host 127.0.0.1 --port 6005
+  ```
+  (add file paths to scope it, or `--staged` for staged files; no args = every `.gd` under `game/`, addons excluded)
+- Address all warnings programmatically or add `@warning_ignore(...)` if explicitly justified. Zero compilation warnings are tolerated.
+- The `pre-commit` hook (versioned at `scripts/hooks/pre-commit`, installed to `.git/hooks/`) runs this audit on every staged `.gd` file and blocks the commit on any warning/error. On a fresh clone, reinstall with `cp scripts/hooks/pre-commit .git/hooks/pre-commit`.
 
 ## Testing & Verification Philosophy
 

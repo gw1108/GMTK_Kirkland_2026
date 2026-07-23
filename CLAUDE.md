@@ -45,6 +45,24 @@ This is Godot 4.7
 
 ---
 
+## GDScript LSP tooling (`scripts/`)
+
+The Godot editor serves a GDScript language server on TCP `127.0.0.1:6005`. The tools below auto-boot a headless editor when nothing is listening (and reuse the GUI editor's server if it's open). See the `godot-lsp` skill for full usage.
+
+- Server: `python scripts/godot_lsp.py status|start|stop` (env overrides: `GODOT_EXE`, `GODOT_LSP_HOST`, `GODOT_LSP_PORT`).
+- JSON-RPC agent API: `python scripts/lsp_rpc.py --open game/foo.gd textDocument/documentSymbol` (also `hover`/`definition` with `--pos LINE:COL`); or `from godot_lsp import rpc` in Python.
+
+### Audit Compiler Warnings (LSP Audit)
+- Ensure all modified files achieve zero warning compliance in Godot's Language Server.
+- Boot the LSP server and execute the audit script locally:
+
+  ```powershell
+  python scripts/tests/audit_lsp_warnings.py --host 127.0.0.1 --port 6005
+  ```
+  (add file paths to scope it, or `--staged` for staged files; no args = every `.gd` under `game/`, addons excluded)
+- Address all warnings programmatically or add `@warning_ignore(...)` if explicitly justified. Zero compilation warnings are tolerated.
+- The `pre-commit` hook (versioned at `scripts/hooks/pre-commit`, installed to `.git/hooks/`) runs this audit on every staged `.gd` file and blocks the commit on any warning/error. On a fresh clone, reinstall with `cp scripts/hooks/pre-commit .git/hooks/pre-commit`.
+
 ## Testing & Verification Philosophy
 
 Tests are **not required**. Do not use TDD / test-first / red-green-refactor on this project.

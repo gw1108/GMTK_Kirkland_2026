@@ -40,6 +40,7 @@ This is Godot 4.7
 ## Art assets (SourceArt/)
 - To find or understand art assets, do NOT browse or open files under `SourceArt/` directly. Grep `SourceArt/_catalog/catalog.jsonl` (case-insensitive; descriptions + tags include synonyms) and see `SourceArt/ART_CATALOG.md` for how to read it. Only Read a contact sheet from `SourceArt/_catalog/sheets/` when text can't disambiguate candidates; never Read individual art files.
 - Before configuring a Godot TileSet from this art, check `SourceArt/_catalog/TILED_INDEX.md` for a matching `.tsx` tileset — it records exact tile size, margin/spacing, and wang/terrain sets (which tiles form transitions); use that geometry and grouping so tiles and autotiling are set up correctly. `.tmx` maps there are the pack author's worked example layouts.
+- Animations from source-art packs whose names begin with `Epic ` or `ERW -` run at **12 frames per second**.
 - If `SourceArt/_catalog/pending_updates.jsonl` contains entries with `"resolved": false`, source art changed after game assets may have been derived from it — surface this to the developer before art-related work, and mark handled ones with the `resolve` subcommand.
 - After adding/changing files under `SourceArt/`, run the `art-catalog` skill (script: `.Codex/skills/art-catalog/scripts/art_catalog.py`).
 

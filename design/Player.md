@@ -15,14 +15,52 @@ The warrior moves using the normal movement physics and collision shape, but doe
 
 The player auto-casts attacks. An attack selects a valid nearby enemy according to its targeting rule, then performs its wind-up, active hit, and recovery without stopping the warrior's movement.
 
+## Common Stats
+
+Abilities the warrior player and the wizards that the player is defending have the following stats that effect most of their abilities.
+
+- **ID:** Id label of the weapon.
+- **Damage:** The damage an instance of this weapon does.
+- **Area:** The size of the projectile or AOE. By default 100% for all abilities.
+- **Projectile Speed:** Weapon projectile speed.
+- **Amount:** The amount of projectiles or instances that occurs.
+- **Pierce:** The amount of enemies the projectile can hit before being destroyed or for melee the amount of enemies that it can hit.
+- **Cooldown:** The amount of seconds that must pass before activating again. For fast attacks it is 1s. For medium attacks 4s. For slow attacks 10s.
+- **Projectile Interval:** The amount of seconds that must pass in between projectiles if it is a multi projectile sequential attack. Rarely used.
+- **Knockback:** The amount to knockback enemies.
+- **Pool Limit:** The amount of projectiles that are allowed on screen at the same time. If attempting to spawn another projectile but already at the pool limit delete a random projectile for reuse. Default is 70.
+- **Crit Chance:** The chance of getting a critical strike which applies the critical damage bonus. Default is 5%.
+- **Critical Damage Bonus:** Multiply the damage by the critical damage bonus. Default is 150% so multiply the damage by 1.5.
+- **Blocked by Walls:** If true, the projectile is destroyed when it hits a wall. By default it is true.
+- **Duration:** The duration of the effect or damaging aoe circle. Not the life time of the projectile. Usually not used.
+- **Projectile Duration:** The duration that a projectile lives before being destroyed. By default it is 20 seconds.
+- **Charges:** If an ability specifies it can build up charges or start the level with charges. Charges are expended on activation. By default, the cooldown stat determines how much time before 1 charge is replenished.
+- **Animation Speed**: Only slash attacks benefit from this. Default is 100%. But if it is increased to 200% the animation is played twice as fast.
+
+The warrior player, the wizards, structures, and enemies also have the following generic stats that apply to themselves.
+
+- **Health:** If this reaches 0 the entity dies.
+- **Invulnerable:** Some barricades or traps are invulnerable and cannot take damage. They can still die if they are consumed when they are triggered if they are a trap.
+- **Armor:** A % reduction to incoming damage. Max 90%.
+- **Evasion:** A chance to avoid incoming damage. Max 90%.
+- **Accuracy:** A % reduction to the enemies evasion stat. For example if the enemy has 50% evasion but the player has 60% accuracy the chance to hit is 110%. Chance to hit beyond 100% is wasted.
+- **Increased Damage:** A generic % increased damage to all abilities.
+- **Increased Crit Chance:** A generic % increased crit chance. For example, if the player upgrades enough nodes for 110% increased crit chance and they use an ability with base 5% crit chance, their chance to crit would be 10.5%.
+- **Increased Crit Damage Bonus:** A generic % increased crit damage bonus. For example, if the player upgrades enough nodes for 100% increased crit damage bonus and they use an ability with 150% base crit damage bonus they will multiply their final damage by 2=(50% * 2 + 1)
+- **More Damage:** A generic multiplier on damage similar to crit. For example, if a node gives 5% more damage you multiply the final damage number by 1.05.
+- **Attack Speed:** Increases the animation speed of attacks.
+- **Base Movement Speed:** Base movement speed before increases and reductions.
+- **Movement Speed:** Multiplier to the movement speed of this character. For example a 130% means 1.3 * base movement speed. Default is 100%. Can be reduced by status effects.
+- **Projectile Count:** Amount of extra projectiles for all abilities that benefit from Amount. Default is 0. For example, if it is 2 then an ice volley will shoot 3 total projectiles in sequence.
+
 ### Starting attack: slash
 
-The warrior starts every run with Slash, using `warrior-single swing 1.png` from the warrior art folder.
+The warrior starts every run with Slash, using `warrior-single swing 1.png` from the warrior art folder. The slash does not benefit from area, projectile speed, amount, projectile interval, duration, projectile duration. Blocked by walls = false.
 
 - **Targeting:** nearest target in slash range; if none is available, the warrior remains ready rather than swinging into empty space.
 - **Shape:** a forward melee arc in the selected target's direction.
 - **Hit timing:** the hitbox is active only on the impact frames of the attack animation.
-- **Damage:** one hit per enemy per slash unless the Combo Slash upgrade is active.
+- **Damage:** one hit per enemy per slash by default (pierce = 1). There is a node upgrade that upgrades this value beyond 1. If there are multiple enemies in the hitbox choose the enemy that is closest to the player.
 - **Movement:** the warrior can continue to move and sway while the independent slash animation is playing.
 - **Tuning:** slash damage, interval, range, arc width, knockback, and critical values are all balance-data fields.
 
@@ -30,14 +68,10 @@ The warrior starts every run with Slash, using `warrior-single swing 1.png` from
 
 These attacks are unlocked by skill-tree nodes and use the same automatic, movement-compatible casting model as Slash.
 
-| Attack family | Targeting and behavior | Primary upgrade hooks |
+| Attack family | Targeting and behavior | Non-upgrade hooks |
 | --- | --- | --- |
-| Cleave | A wider forward melee arc that can hit multiple clustered enemies. | Area, damage, targets hit, interval |
-| Whirlwind | A short circular attack centered on the warrior, useful when surrounded. | Radius, duration, damage tick interval |
-| Thrown weapon | A projectile fires toward a selected enemy and can travel through a line of enemies. | Projectile count, damage, speed, lifetime, pierce |
-| Returning weapon | A projectile travels outward, then returns to the warrior and can hit on both paths. | Damage, travel distance, return speed, pierce |
-| Ground shockwave | A short-range outward wave from the warrior that creates space rather than serving as the main damage source. | Radius, damage, knockback, slow |
-| Retaliation burst | Automatically triggers after the warrior takes damage, striking close enemies. | Cooldown, radius, damage, knockback |
+| "Ice Volley": Thrown weapon uses Ice Effect 01, IceVfx 1 as the projectile. | A projectile fires toward the nearest enemy. When adding multiple projectiles they fire sequentially one after the other using the projectile interval = 0.2s. | Does not benefit from Area or Duration. |
+| Defensive bubble shield. which uses the pipo-btleffect208_192.png animation when the player would take damage from a hit. | It plays in the direction that the player got hit from either left or right (animation is default left). For each upgrade the player will reduce incoming damage to 0. Does not recharge or replenish during the level. Starts with charges = to the number of times it has been upgraded with + charges. | Does not benefit from most upgrades except charges = 1 by default. Has 0 base cooldown. |
 
 ### Combo Slash upgrade
 

@@ -38,7 +38,7 @@ The arena is somewhat large — about 2 screens across and 2 screens down — bu
 
 ## Gameplay
 
-The player character is a warrior. They move with WASD and auto-cast everything. Their spells kill things in their vicinity, like in Vampire Survivors. Use sprites from `EPIC RPG World Pack - Grass Land V. 1.6\Characters\Warrior`.
+The player character is a warrior. They move with WASD and auto-cast everything. Their spells kill things in their vicinity, like in Vampire Survivors. Use sprites from `Tiny Swords (Free Pack)\Tiny Swords (Free Pack)\Units\Blue Units\Warrior`.
 
 There is no leveling up during gameplay — upgrades are bought on the skill tree screen between attempts. Enemies drop XP gems that the player walks over to pick up. XP from collected gems is always kept, win or lose, and can only be spent at the skill tree step between runs.
 

@@ -1,6 +1,6 @@
 # Player & Skill Tree Design
 
-The player is the warrior using sprites from `EPIC RPG World Pack - Grass Land V. 1.6\Characters\Warrior`. This file defines the player's combat presentation, attack families, and the node types available in the between-run skill tree. All scalar values named here must be authored in `game/data/balance.csv` during implementation; this document defines the effects and relationships, not hard-coded values.
+The player is the warrior using sprites from `Tiny Swords (Free Pack)\Tiny Swords (Free Pack)\Units\Blue Units\Warrior`. This file defines the player's combat presentation, attack families, and the node types available in the between-run skill tree. All scalar values named here must be authored in `game/data/balance.csv` during implementation; this document defines the effects and relationships, not hard-coded values.
 
 ## Movement presentation
 
@@ -57,7 +57,7 @@ The warrior player, the wizards, structures, and enemies also have the following
 
 ### Starting attack: slash
 
-The warrior starts every run with Slash, using `warrior-single swing 1.png` from the warrior art folder. The slash does not benefit from area, projectile speed, amount, projectile interval, duration, projectile duration. Blocked by walls = false.
+The warrior starts every run with Slash, using `Warrior_Attack1` from the warrior art folder. The slash does not benefit from area, projectile speed, amount, projectile interval, duration, projectile duration. Blocked by walls = false.
 
 - **Targeting:** nearest target in slash range; if none is available, the warrior remains ready rather than swinging into empty space.
 - **Shape:** a forward melee arc in the selected target's direction.
@@ -79,7 +79,28 @@ These attacks are unlocked by skill-tree nodes and use the same automatic, movem
 
 ### Combo Slash upgrade
 
-Combo Slash replaces the default `warrior-single swing 1.png` animation with `warrior-full combo attack with 3 swings.png` from the warrior art folder. It performs three sequential swings at the selected target. The first swing uses normal Slash base damage; the second deals base damage + 2, and the third deals base damage + 4. Each swing has its own active hit frames, so the same enemy can be hit once by each swing if it remains in range.
+Combo Slash upgrades the Slash chain in two stages using the Tiny Swords Warrior animations. The first stage is a two-hit chain: `Warrior_Attack1`, then `Warrior_Attack2`. The final stage is a three-hit chain: `Warrior_Attack1`, then `Warrior_Attack2`, then `Warrior_Attack3`. The first swing uses normal Slash base damage; the second deals base damage + 2, and the third deals base damage + 4. Each swing has its own active hit frames, so the same enemy can be hit once by each swing if it remains in range. The local Tiny Swords Free Pack currently contains `Warrior_Attack1.png` and `Warrior_Attack2.png`, but not `Warrior_Attack3.png`; add that matching source asset before implementing the final three-hit stage.
+
+## Defensive towers
+
+Towers are placed during pre-wave and remain fixed at their placement position. They have health and can block enemies; neither tower type moves after placement.
+
+### Archer tower
+
+The Archer tower is the primary ranged tower. Its full building presentation uses `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Buildings/Blue Buildings/Tower.png`, with a Blue Units Archer positioned at the top. The low-level version is represented by the Archer alone, without the building. Use the Archer idle and shooting art from `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Units/Blue Units/Archer/`; its fired projectile uses `Arrow.png` from that same folder.
+
+- The tower does not move.
+- It automatically fires ranged arrows at enemies in range, dealing damage.
+- Archer-tower damage, attack interval, range, arrow speed, projectile pierce, health, and armor are balance-data fields.
+
+### Lancer tower
+
+The Lancer tower is a stationary frontline tower represented by art from `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Units/Blue Units/Lancer/`.
+
+- It does not move and physically blocks enemies.
+- Its purpose is to tank enemy attacks, attack nearby enemies, and knock them back.
+- It can face all eight directions. Whenever an enemy is in attack range, it automatically turns to face that enemy before attacking.
+- Lancer-tower health, armor, damage, attack interval, attack range, and knockback are balance-data fields.
 
 ## Skill tree authoring rules
 
@@ -92,7 +113,7 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 | Slash damage | Increases base Slash damage. |
 | Slash interval | Reduces the time between Slash attacks. |
 | Slash knockback | Pushes enemies hit by Slash farther away. |
-| Combo Slash | Replaces the single-swing Slash with `warrior-full combo attack with 3 swings.png`. The second and third swings deal +2 and +4 base damage respectively. |
+| Combo Slash | Level 1 upgrades Slash to the two-hit `Warrior_Attack1` → `Warrior_Attack2` chain. Level 2 upgrades it to the three-hit `Warrior_Attack1` → `Warrior_Attack2` → `Warrior_Attack3` chain. The second and third swings deal +2 and +4 base damage respectively. |
 | Critical chance | Increases the chance for player attacks to critically hit. |
 | Critical damage | Increases the damage multiplier of critical hits. |
 | Armor penetration | Ignores more enemy armor when armor is introduced. |
@@ -111,7 +132,7 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 
 | Node type | Effect |
 | --- | --- |
-| Tower placement unlock | Allows placement of the first tower type during pre-wave. |
+| Archer tower placement unlock | Allows placement of the Archer tower during pre-wave. |
 | Tower capacity | Increases the maximum number of towers that can be placed. |
 | Tower health | Increases tower health. |
 | Tower armor | Increases tower armor. |
@@ -120,6 +141,8 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 | Tower range | Increases tower targeting range. |
 | Tower projectile speed | Increases tower projectile speed. |
 | Tower projectile pierce | Adds tower projectile pierce. |
+| Lancer tower unlock | Unlocks placement of the stationary Lancer tower during pre-wave. |
+| Lancer knockback | Pushes enemies struck by Lancer towers farther away. |
 | Slow tower unlock | Unlocks a tower that slows enemies. |
 | Slow strength | Increases the slow effect from slowing towers. |
 | Area tower unlock | Unlocks a tower with area damage. |

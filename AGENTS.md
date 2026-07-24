@@ -44,7 +44,7 @@ This is Godot 4.7
 - Animations from source-art packs whose names begin with `Epic ` or `ERW -` run at **12 frames per second**.
 - The local `Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Units/Blue Units/Warrior` folder currently has `Warrior_Attack1.png` and `Warrior_Attack2.png`, but no `Warrior_Attack3.png`; do not configure a three-hit Warrior chain until the third attack asset is added.
 - If `SourceArt/_catalog/pending_updates.jsonl` contains entries with `"resolved": false`, source art changed after game assets may have been derived from it — surface this to the developer before art-related work, and mark handled ones with the `resolve` subcommand.
-- After adding/changing files under `SourceArt/`, run the `art-catalog` skill (script: `.Codex/skills/art-catalog/scripts/art_catalog.py`).
+- After adding/changing files under `SourceArt/`, run the `art-catalog` skill (script: `.agents/skills/art-catalog/scripts/art_catalog.py`).
 
 **Visual / rendering rules:**
 - **Game size: the Godot base viewport is 960×540** (window can stretch). Size art for that: author/import at roughly 2× the largest on-screen size, not at whatever resolution a generator emits — do NOT ship 1024×1024 masters for every sprite; downscale on import. When generating art with agy, bundle related images (animation poses, growth stages, icon families) into one equal-cell sprite-sheet request instead of one request per image.

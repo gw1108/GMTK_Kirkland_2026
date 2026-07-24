@@ -1,5 +1,8 @@
 # Lessons
 
+### Design clarification scope
+Treat an explicit, internally consistent design rule as settled; ask only about genuine omissions or contradictions, and never promote placeholder node names into features without explicit design or art support.
+
 (Carried over from SproutValley — generic tool/engine gotchas only.)
 
 ### Simulated input in Godot probes
@@ -15,4 +18,5 @@ Save `.ps1` files as UTF-8 **with BOM** — Windows PowerShell 5.1 reads BOM-les
 Godot auto-imports `.csv` as translations, so exports pack the generated `.translation` files but NOT the raw CSV — any `FileAccess.open("res://*.csv")` works in-editor but fails in builds. Set the file's `.import` to `importer="keep"` (and delete stray `*.translation` siblings) for every data CSV.
 
 ### agy target paths
+
 agy's shell tool runs from its own scratch dir, not the launch cwd — always give agy ABSOLUTE file paths for outputs (relative paths land in `~/.gemini/antigravity-cli/scratch/`).

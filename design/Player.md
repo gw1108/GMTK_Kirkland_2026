@@ -17,38 +17,38 @@ The player auto-casts attacks. An attack selects a valid nearby enemy according 
 
 ## Common Stats
 
-Abilities the warrior player and the wizards that the player is defending have the following stats that effect most of their abilities.
+Abilities used by the warrior and the wizards have the following stats, which affect most abilities.
 
-- **ID:** Id label of the weapon.
+- **ID:** Stable identifier for the ability.
 - **Damage:** The damage an instance of this weapon does.
 - **Area:** The size of the projectile or AOE. By default 100% for all abilities.
 - **Projectile Speed:** Weapon projectile speed.
-- **Amount:** The amount of projectiles or instances that occurs.
-- **Pierce:** The amount of enemies the projectile can hit before being destroyed or for melee the amount of enemies that it can hit.
+- **Amount:** The number of projectiles or instances that occur.
+- **Pierce:** The number of enemies a projectile can hit before being destroyed or, for melee attacks, the number of enemies the attack can hit.
 - **Cooldown:** The amount of seconds that must pass before activating again. For fast attacks it is 1s. For medium attacks 4s. For slow attacks 10s.
 - **Projectile Interval:** The amount of seconds that must pass in between projectiles if it is a multi projectile sequential attack. Rarely used.
 - **Knockback:** The amount to knockback enemies.
-- **Pool Limit:** The amount of projectiles that are allowed on screen at the same time. If attempting to spawn another projectile but already at the pool limit delete a random projectile for reuse. Default is 70.
+- **Pool Limit:** The number of projectiles that may be on screen at the same time. If an ability attempts to spawn another projectile while already at the pool limit, recycle a random active projectile. Default is 70.
 - **Crit Chance:** The chance of getting a critical strike which applies the critical damage bonus. Default is 5%. By default each projectile rolls their critical strike chance separately. If a projectile has AOE or hits multiple enemies, those enemies share the same crit chance roll.
-- **Critical Damage Bonus:** Multiply the damage by the critical damage bonus. Default is 150% so multiply the damage by 1.5.
+- **Critical Damage Bonus:** Multiplies damage on a critical strike. The default is 150%, so critical damage is multiplied by 1.5.
 - **Blocked by Walls:** If true, the projectile is destroyed when it hits a wall. By default it is true.
 - **Duration:** The duration of the effect or damaging aoe circle. Not the life time of the projectile. Usually not used.
 - **Projectile Duration:** The duration that a projectile lives before being destroyed. By default it is 20 seconds.
 - **Charges:** If an ability specifies it can build up charges or start the level with charges. Charges are expended on activation. By default, the cooldown stat determines how much time before 1 charge is replenished.
-- **Animation Speed**: Only slash attacks benefit from this. Default is 100%. But if it is increased to 200% the animation is played twice as fast.
-- **Armor Penetration**: Increased amount of armor that is ignored. Similar to Accuracy.
+- **Animation Speed:** Only Slash attacks benefit from this. Default is 100%; at 200%, the animation plays twice as fast.
+- **Ability Armor Penetration:** The amount of target armor ignored by this ability. This is the ability-specific counterpart to the entity's generic Armor Penetration stat.
 
 The warrior player, the wizards, structures, and enemies also have the following generic stats that apply to themselves.
 
 - **Health:** If this reaches 0 the entity dies.
-- **Invulnerable:** Some barricades or traps are invulnerable and cannot take damage. They can still die if they are consumed when they are triggered if they are a trap.
+- **Invulnerable:** Some traps are invulnerable and cannot take damage, but are still consumed when triggered.
 - **Armor:** A % reduction to incoming damage. Max 90%.
 - **Evasion:** A chance to avoid incoming damage. Max 90%.
 - **Accuracy:** A % reduction to the enemy's evasion stat. For example if the enemy has 50% evasion but the player has 60% accuracy the chance to hit is 110%. Chance to hit beyond 100% is wasted.
-- **Armor Penetration**: A % reduction to the enemy's armor stat. Similar to accuracy.
+- **Armor Penetration:** A percentage reduction to the enemy's armor stat. Similar to Accuracy.
 - **Increased Damage:** A generic % increased damage to all abilities.
 - **Increased Crit Chance:** A generic % increased crit chance. For example, if the player upgrades enough nodes for 110% increased crit chance and they use an ability with base 5% crit chance, their chance to crit would be 10.5%.
-- **Increased Crit Damage Bonus:** A generic % increased crit damage bonus. For example, if the player upgrades enough nodes for 100% increased crit damage bonus and they use an ability with 150% base crit damage bonus they will multiply their final damage by 2=(50% * 2 + 1)
+- **Increased Crit Damage Bonus:** A generic percentage increase to the bonus portion of critical damage. For example, 100% increased critical damage bonus changes a 150% base critical multiplier into 200%: `1 + (0.5 × 2) = 2`.
 - **More Damage:** A generic multiplier on damage similar to crit. For example, if a node gives 5% more damage you multiply the final damage number by 1.05.
 - **Attack Speed:** Increases the animation speed of attacks.
 - **Base Movement Speed:** Base movement speed before increases and reductions.
@@ -62,7 +62,7 @@ The warrior starts every run with Slash, using `Warrior_Attack1` from the warrio
 - **Targeting:** nearest target in slash range; if none is available, the warrior remains ready rather than swinging into empty space.
 - **Shape:** a forward melee arc in the selected target's direction.
 - **Hit timing:** the hitbox is active only on the impact frames of the attack animation.
-- **Damage:** one hit per enemy per slash by default (pierce = 1). There is a node upgrade that upgrades this value beyond 1. If there are multiple enemies in the hitbox choose the enemy that is closest to the player.
+- **Damage:** Slash hits one enemy by default (pierce = 1). A node can raise this value. If more enemies are inside the hitbox than Slash can hit, choose the enemies closest to the player.
 - **Movement:** the warrior can continue to move and sway while the independent slash animation is playing.
 - **Tuning:** slash damage, interval, range, arc width, knockback, and critical values are all balance-data fields.
 
@@ -73,38 +73,39 @@ These attacks are unlocked by skill-tree nodes and use the same automatic, movem
 | Attack family | Targeting and behavior | Non-upgrade hooks |
 | --- | --- | --- |
 | "Ice Volley": Thrown weapon uses Ice Effect 01, IceVfx 1 as the projectile. | A projectile fires toward the nearest enemy. When adding multiple projectiles they fire sequentially one after the other using the projectile interval = 0.2s. | Does not benefit from Area or Duration. |
-| "Bubble Shield": Defensive bubble shield. which uses the pipo-btleffect208_192.png animation when the player would take damage from a hit. | It plays in the direction that the player got hit from either left or right (animation is default left). For each upgrade the player will reduce incoming damage to 0. Does not recharge or replenish during the level. Starts with charges = to the number of times it has been upgraded with + charges. | Does not benefit from most upgrades except charges = 1 by default. Has 0 base cooldown. |
-| "Holy Hammer": aoe hammer attack which uses the \Pixel Art Animations - Paladin - FREE Version\VFX5 animation on a slow projectile interval. | Targets the closest enemies to the player. Is an AOE strike. Multiple projectiles causes multiple strikes to occur each targetting a different enemy. | Projectile speed increases the animation of the AOE strike. On the hit frame it does an aoe damage at the targetted enemy. By default has infinite pierce. Is not blocked by walls. |
-| "Frost Hammer": Another aoe hammer attack which uses the Pixel Art VFX - Frost Knight - FREE Version\VFX1\ as the hammer but the explosion comes from \Pixel Art VFX - Frost Knight - FREE Version\VFX3 . | Targets the closest enemies to the player. Is an AOE strike. Multiple projectiles causes there to be additional explosions shooting away from the hammer animation 1 per additional projectile. | Projectile speed increases the animation of the AOE strike. Uses a projectile interval of 0.3s by default between additional explosions beyond the first. The same enemy can be hit by the same frost hammer attack if the player has enough increased AOE and the enemy is near the edge of the first hammer strike causing them to be hit by two AOE circles overlapping. By default has infinite pierce. Is not blocked by walls. |
+| "Bubble Shield": A defensive shield using the `pipo-btleffect208_192.png` animation when the player would take damage from a hit. | Each charge negates one incoming hit. Play the animation facing the direction the hit came from; the animation faces left by default and may be flipped for hits from the right. Charges do not replenish during the level. The red-gem unlock grants one base charge, and the normal-XP Bubble Shield charges node adds more starting charges. | Does not benefit from most upgrades. It has no cooldown; its limited charges control its use. |
+| "Holy Hammer": An AOE hammer attack using the `Pixel Art Animations - Paladin - FREE Version/VFX5` animation on a slow projectile interval. | Targets the enemies closest to the player. Multiple projectiles cause multiple strikes, each targeting a different enemy when enough targets are available. | Projectile speed increases the animation speed of the AOE strike. On the hit frame, it deals AOE damage centered on the targeted enemy. It has infinite pierce by default and is not blocked by walls. |
+| "Frost Hammer": An AOE hammer attack using `Pixel Art VFX - Frost Knight - FREE Version/VFX1` for the hammer and `Pixel Art VFX - Frost Knight - FREE Version/VFX3` for the explosion. | Targets the enemies closest to the player. Each additional projectile creates one additional explosion traveling away from the hammer animation. | Projectile speed increases the animation speed of the AOE strike. Additional explosions use a default projectile interval of 0.3 seconds. Overlapping explosion areas may hit the same enemy more than once. It has infinite pierce by default and is not blocked by walls. |
 
 ### Combo Slash upgrade
 
-Combo Slash upgrades the Slash chain in two stages using the Tiny Swords Warrior animations. The first stage is a two-hit chain: `Warrior_Attack1`, then `Warrior_Attack2`. The final stage is a three-hit chain: `Warrior_Attack1`, then `Warrior_Attack2`, then `Warrior_Attack3`. The first swing uses normal Slash base damage; the second deals base damage + 2, and the third deals base damage + 4. Each swing has its own active hit frames, so the same enemy can be hit once by each swing if it remains in range. The local Tiny Swords Free Pack currently contains `Warrior_Attack1.png` and `Warrior_Attack2.png`, but not `Warrior_Attack3.png`; add that matching source asset before implementing the final three-hit stage.
+Combo Slash upgrades the Slash chain in two stages using the Tiny Swords Warrior animations. The first stage is a two-hit chain: `Warrior_Attack1`, then `Warrior_Attack2`. The final stage is a three-hit chain: `Warrior_Attack1`, then `Warrior_Attack2`, then `Warrior_Attack3`. The first swing uses normal Slash base damage; the second and third have default flat damage bonuses of +2 and +4, respectively. Those bonuses must be authored as separate balance-data fields. Each swing has its own active hit frames, so the same enemy can be hit once by each swing if it remains in range. The local Tiny Swords Free Pack currently contains `Warrior_Attack1.png` and `Warrior_Attack2.png`, but not `Warrior_Attack3.png`; add that matching source asset before implementing the final three-hit stage.
 
-## Defensive towers
+## Defensive units and tower
 
-Towers are placed during pre-wave and remain fixed at their placement position. They have health and can block enemies; neither tower type moves after placement.
+Archers and Lancers are placed during pre-wave and remain fixed at their placement positions. They have health and can be attacked; neither unit moves after placement.
 
-### Archer tower
+### Archer unit and tower
 
-The Archer tower is the primary ranged tower. Its full building presentation uses `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Buildings/Blue Buildings/Tower.png`, with a Blue Units Archer positioned at the top. The low-level version is represented by the Archer alone, without the building. Use the Archer idle and shooting art from `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Units/Blue Units/Archer/`; its fired projectile uses `Arrow.png` from that same folder.
+Archer is the ranged defensive placement and the only mechanic that becomes a tower. It begins as a Blue Units Archer standing alone. Purchasing the late, one-level Archer Tower transformation node replaces that presentation with `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Buildings/Blue Buildings/Tower.png` and positions the Archer at the top. Use the Archer idle and shooting art from `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Units/Blue Units/Archer/`; its fired projectile uses `Arrow.png` from that same folder.
 
-- The tower does not move.
+- The Archer does not move after placement.
 - It automatically fires ranged arrows at enemies in range, dealing damage.
-- Archer-tower damage, attack interval, range, arrow speed, projectile pierce, health, and armor are balance-data fields.
+- Archer damage, attack interval, range, arrow speed, projectile pierce, health, and armor are authored through skill-tree and balance data.
+- Every placed Archer uses the player's current Archer stats and transformation state.
 
-### Lancer tower
+### Lancer unit
 
-The Lancer tower is a stationary frontline tower represented by art from `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Units/Blue Units/Lancer/`.
+The Lancer is a stationary frontline unit represented by art from `SourceArt/Tiny Swords (Free Pack)/Tiny Swords (Free Pack)/Units/Blue Units/Lancer/`. It is not a tower.
 
 - It does not move and physically blocks enemies.
-- Its purpose is to tank enemy attacks, attack nearby enemies, and knock them back.
+- Its primary purpose is to act as an HP wall, draw enemy attacks, and protect the wizard. It occasionally attacks nearby enemies and knocks them back.
 - It can face all eight directions. Whenever an enemy is in attack range, it automatically turns to face that enemy before attacking.
-- Lancer-tower health, armor, damage, attack interval, attack range, and knockback are balance-data fields.
+- Lancer health, armor, damage, attack interval, attack range, and knockback are balance-data fields. Lancer interception targeting follows the deterministic rule in the GDD rather than a random aggro chance.
 
 ## Traps
 
-Traps are placed during pre-wave, remain at their placement position, and are consumed when an enemy steps on them. Both trap variants use `Bear_Trap.png` as their base sprite; apply a subtle blue tint for Frost Trap and a subtle green tint for Poison Trap so their effect is legible before triggering. Trap capacity, trigger radius, effect radius, duration, damage, and debuff strength are balance-data fields.
+Traps are placed during pre-wave, remain at their placement position, and are consumed when an enemy steps on them. Both trap variants use the four-frame snapping animation at `SourceArt/Bear_Trap.png` as their base sprite. Apply a subtle blue tint for Frost Trap and a subtle green tint for Poison Trap so their effect is legible before triggering. Trap capacity, trigger radius, effect radius, duration, damage, and debuff strength are balance-data fields.
 
 ### Frost Trap
 
@@ -116,7 +117,28 @@ Poison Trap is the green damage-over-time trap. When an enemy steps on it, the t
 
 ## Skill tree authoring rules
 
-The tree uses the GDD's four directions. Each node type has a CSV-defined maximum level from 1 to 100 and an effect that scales per level. A node's cost follows the GDD's global price rule unless it is a red-gem node. Nodes unlock mechanics only when their level rises from 0 to 1; later levels improve the listed effect.
+The tree uses the GDD's four directions. Each node type has a CSV-defined maximum level from 1 to 100 and an effect that scales per level. A node's cost follows the GDD's global price rule unless it is a red-gem node. Red-gem major nodes unlock mechanics when purchased; normal-XP nodes improve unlocked or starting mechanics.
+
+### Red-gem major upgrades
+
+The tree contains exactly 12 red-gem major nodes. Each has a maximum level of 1, costs exactly 1 red gem, and does not increase the normal-cost exponent `M`. A major node becomes purchasable after the player has purchased at least one level of its immediately preceding normal-XP node in the authored tree. Later normal-XP nodes scale the unlocked mechanic.
+
+| Direction | Major node | One-time unlock effect |
+| --- | --- | --- |
+| Up | Ice Volley unlock | Unlocks the automatic Ice Volley projectile attack. |
+| Up | Holy Hammer unlock | Unlocks the automatic Holy Hammer AOE attack. |
+| Up | Frost Hammer unlock | Unlocks the automatic Frost Hammer AOE attack. |
+| Down | Archer unlock | Unlocks Archer placement with a base capacity of 1. |
+| Down | Lancer unlock | Unlocks Lancer placement with a base capacity of 1. |
+| Down | Frost Trap unlock | Unlocks Frost Trap placement with a base capacity of 1. |
+| Down | Poison Trap unlock | Unlocks Poison Trap placement with a base capacity of 1. |
+| Right | Second Wizard unlock | Adds the second middle wizard and raises both wizards to 24 maximum health before other wizard-health modifiers. |
+| Right | Wizard Wind Burst unlock | Unlocks Wind Burst for every wizard. |
+| Right | Wizard Fireball unlock | Unlocks Fireball for every wizard. |
+| Right | Wizard Barrier unlock | Unlocks Barrier for every wizard. |
+| Right | Wizard Lightning Strike unlock | Unlocks Lightning Strike for every wizard. |
+
+All base capacities, attack values, and spell values granted by these nodes are balance-data fields. Bubble Shield is a normal-XP defensive unlock rather than a red-gem weapon major.
 
 ### Up: player power
 
@@ -125,7 +147,8 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 | Slash damage | Increases base Slash damage. |
 | Slash interval | Reduces the time between Slash attacks. |
 | Slash knockback | Pushes enemies hit by Slash farther away. |
-| Combo Slash | Level 1 upgrades Slash to the two-hit `Warrior_Attack1` → `Warrior_Attack2` chain. Level 2 upgrades it to the three-hit `Warrior_Attack1` → `Warrior_Attack2` → `Warrior_Attack3` chain. The second and third swings deal +2 and +4 base damage respectively. |
+| Combo Slash | Level 1 upgrades Slash to the two-hit `Warrior_Attack1` → `Warrior_Attack2` chain. Level 2 upgrades it to the three-hit `Warrior_Attack1` → `Warrior_Attack2` → `Warrior_Attack3` chain. The second- and third-swing flat damage bonuses are separate balance-data fields with defaults of +2 and +4. |
+| Slash pierce | Increases the number of enemies Slash can hit per swing. |
 | Critical chance | Increases the chance for player attacks to critically hit. |
 | Critical damage | Increases the damage multiplier of critical hits. |
 | Armor penetration | Ignores more enemy armor when armor is introduced. |
@@ -134,41 +157,37 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 | Move speed | Increases warrior movement speed. |
 | Dash distance | Increases the Space-dash travel distance. |
 | Dash recovery | Reduces the wait before dashing again. |
-| Thrown weapon unlock | Unlocks the "Ice Volley" Thrown weapon attack. |
+| Bubble Shield unlock | Unlocks Bubble Shield with one base charge. This normal-XP node has a maximum level of 1. |
+| Bubble Shield charges | Adds one Bubble Shield charge at the start of each run. Requires the normal-XP Bubble Shield unlock. |
 | Projectile count | Adds projectiles to player projectile attacks. |
 | Projectile damage | Increases player projectile damage. |
 | Projectile speed | Increases player projectile speed. |
 | Projectile pierce | Increases projectile pierce stat to pass through more enemies. |
 
-### Down: towers and barricades
+### Down: defensive placements
 
 | Node type | Effect |
 | --- | --- |
-| Archer tower placement unlock | Allows placement of the Archer tower during pre-wave. |
-| Tower capacity | Increases the maximum number of towers that can be placed. |
-| Tower health | Increases tower health. |
-| Tower armor | Increases tower armor. |
-| Tower damage | Increases tower attack damage. |
-| Tower attack interval | Reduces the wait between tower attacks. |
-| Tower range | Increases tower targeting range. |
-| Tower projectile speed | Increases tower projectile speed. |
-| Tower projectile pierce | Adds tower projectile pierce. |
-| Lancer tower unlock | Unlocks placement of the stationary Lancer tower during pre-wave. |
-| Lancer knockback | Pushes enemies struck by Lancer towers farther away. |
-| Slow tower unlock | Unlocks a tower that slows enemies. |
-| Slow strength | Increases the slow effect from slowing towers. |
-| Area tower unlock | Unlocks a tower with area damage. |
-| Area tower radius | Increases area-tower hit radius. |
-| Barricade placement unlock | Allows placement of barricades during pre-wave. |
-| Barricade capacity | Increases the maximum number of barricades. |
-| Barricade health | Increases barricade health. |
-| Barricade armor | Increases barricade armor. |
-| Barricade aggro | Makes barricades draw enemy attention more reliably. |
-| Frost Trap placement unlock | Allows placement of blue Frost Traps during pre-wave. |
+| Archer capacity | Increases the maximum number of Archers that can be placed. |
+| Archer rank | Improves Archer health and damage. |
+| Archer Tower transformation | A one-level normal-XP node that changes every placed Archer to the full tower-and-Archer presentation. Place it late in the Down branch, with enough prerequisite depth that a typical player reaches it around campaign levels 8–11. This is an expected progression window, not a campaign-level requirement. |
+| Archer health | Increases Archer health. |
+| Archer armor | Increases Archer armor. |
+| Archer damage | Increases Archer attack damage. |
+| Archer attack interval | Reduces the wait between Archer attacks. |
+| Archer range | Increases Archer targeting range. |
+| Archer projectile speed | Increases arrow speed. |
+| Archer projectile pierce | Adds arrow pierce. |
+| Lancer capacity | Increases the maximum number of Lancers that can be placed. |
+| Lancer health | Increases Lancer health. |
+| Lancer armor | Increases Lancer armor. |
+| Lancer damage | Increases Lancer attack damage. |
+| Lancer attack interval | Reduces the wait between Lancer attacks. |
+| Lancer range | Increases Lancer attack range. |
+| Lancer knockback | Pushes enemies struck by Lancers farther away. |
 | Frost Trap capacity | Increases the maximum number of Frost Traps that can be placed. |
 | Frost Trap slow strength | Increases the movement-speed reduction applied by Frost Traps. |
 | Frost Trap slow duration | Increases the duration of the Frost Trap slow debuff. |
-| Poison Trap placement unlock | Allows placement of green Poison Traps during pre-wave. |
 | Poison Trap capacity | Increases the maximum number of Poison Traps that can be placed. |
 | Poison Trap damage | Increases Poison Trap poison damage over time. |
 | Poison Trap duration | Increases the duration of the Poison Trap poison debuff. |
@@ -179,7 +198,7 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 | --- | --- |
 | Gem XP value | Increases XP gained from collected XP gems which drop from enemies. |
 | Gem pickup range | Increases the distance at which the warrior collects XP gems. |
-| Enemy XP-drop chance | Increases the chance that an enemy drops an extra XP gem. This is a surpassing chance so if it is 150% the enemy will drop 2 xp gems and a 50% chance to drop an additional one for a total of 3 xp gems. |
+| Enemy XP-drop chance | Increases the chance that an enemy drops extra XP gems. Each full 100% guarantees one extra gem, and the remainder is the chance for one more. For example, 150% grants one guaranteed extra gem plus a 50% chance for a second extra gem, in addition to the enemy's normal drop. |
 | Additional XP Reward | Adds a flat XP reward at the end of the level. |
 | Win XP reward | Increases the XP reward at the end of the level by a %. |
 | Win XP multiplier| % more xp reward at the end of the level. |
@@ -188,11 +207,10 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 
 | Node type | Effect |
 | --- | --- |
-| Second wizard unlock | Adds the second middle wizard. This is the branch's major red-gem unlock. The second wizard passively doubles the health of the wizards. |
 | Wizard health | Increases each wizard's maximum health. |
 | Wizard armor | Increases each wizard's damage mitigation. |
-| Wizard auto-cast interval | Reduces the wait before the wizard casts the ultimate spell to beat the level. |
-| Wizard barrier unlock | Unlocks a temporary defensive barrier around a threatened wizard. Same as the player's "Bubble Shield" which prevents damage. |
+
+The wizard spell scaling nodes that complete this branch are defined in [wizard.md](wizard.md). They require the Wizard defensive spells red-gem major. Defensive spell upgrades do not change the fixed level-ending ritual duration.
 
 ## Implementation handoff
 

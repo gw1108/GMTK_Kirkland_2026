@@ -2,11 +2,11 @@
 
 The middle wizard is a stationary objective that the warrior protects while it completes the level-ending ritual. It uses sprites from `Epic RPG World - The Village V2.0/NPCs/old wise wizard`. One wizard is present by default; the Second Wizard unlock from the skill tree adds a second wizard and doubles the maximum health of each wizard, as defined in the GDD.
 
-This document replaces the GDD's pending wizard-ability list. It defines defensive, conditional auto-casts only: wizards protect themselves when enemies become threatening, but are not intended to kill most enemies. The warrior, towers, and barricades remain the primary means of clearing waves.
+This document replaces the GDD's pending wizard-ability list. It defines defensive, conditional auto-casts only: wizards protect themselves when enemies become threatening, but are not intended to kill most enemies. The warrior, Archers, Lancers, and traps remain the primary means of clearing waves.
 
 ## Core behaviour
 
-- A wizard never moves, targets enemies with normal movement, or pursues an enemy.
+- A wizard never moves or pursues an enemy. Its defensive spells select targets using the rules below without changing the wizard's position.
 - Enemies normally target the middle wizard(s), following the targeting rules in the GDD.
 - Each wizard has its own health, armor, damage intake, spell cooldowns, and active barrier state.
 - Each wizard evaluates its spell conditions automatically. It casts an eligible spell as soon as that spell's cooldown is ready; no player input is required.
@@ -18,7 +18,7 @@ This document replaces the GDD's pending wizard-ability list. It defines defensi
 
 From the start of a level, every middle wizard continuously performs the ritual that completes the level after the GDD's level-specific cast time. The ritual is not an attack and is not interrupted by casting a defensive spell, taking damage, or having an active barrier.
 
-When the level timer completes, lightning strikes every enemy on screen, instantly kills them, and the level ends in victory as specified by the GDD. The defensive spells below do not shorten this timer. The existing `Wizard auto-cast interval` skill-tree entry should be re-authored during implementation to improve one of the defensive spell cooldowns or removed; it must not contradict the fixed level ritual duration.
+When the level timer completes, lightning strikes every enemy on screen, instantly kills them, and the level ends in victory as specified by the GDD. The defensive spells below do not shorten this timer.
 
 ## Wizard abilities
 
@@ -42,10 +42,10 @@ The wizard launches a fireball at the most threatening nearby enemy. On impact, 
 
 - **Purpose:** Remove a compact group that has already reached the wizard's immediate defense zone.
 - **Targeting:** Select the nearest enemy inside the Fireball threat radius. If enemies are tied, select the one with the lowest health.
-- **Effect:** The projectile travels to the selected target. On reaching the target or colliding with a wall, it explodes in an area, damaging enemies inside the explosion radius. It does not damage the warrior, wizard(s), towers, or barricades.
+- **Effect:** The projectile travels to the selected target. On reaching the target or colliding with a wall, it explodes in an area, damaging enemies inside the explosion radius. It does not damage the warrior, wizard(s), Archers, Lancers, or traps.
 - **Damage role:** Its base damage and area should be tuned to dispatch only close, threatening enemies rather than clear the bulk of the screen.
 - **Cast condition:** At least the configured minimum number of enemies are inside the Fireball threat radius, or an enemy in that radius is a boss. Do not cast if no valid target exists.
-- **Balance fields:** threat radius, minimum nearby-enemy count, damage, projectile speed, projectile duration, explosion radius, pierce, cooldown, cast delay, visual scale.
+- **Balance fields:** threat radius, minimum nearby-enemy count, damage, projectile speed, projectile duration, explosion radius, cooldown, cast delay, visual scale.
 - **Skill-tree scaling:** Fireball upgrades increase its explosion damage or explosion radius. It remains a close-defense tool rather than the primary way to clear ordinary waves.
 
 ### Barrier
@@ -73,16 +73,16 @@ Lightning Strike is a defensive, single-target spell separate from the screen-wi
 
 ## Skill-tree relationship
 
-The right-hand skill-tree branch retains the GDD and [Player.md](Player.md) entries for Second Wizard unlock, Wizard health, Wizard armor, and Wizard Barrier unlock. The Barrier unlock enables Barrier at level 1; later levels improve its balance-defined absorption budget, duration, or cooldown.
+The right-hand skill-tree branch contains five one-time red-gem majors defined in [Player.md](Player.md): Second Wizard, Wind Burst, Fireball, Barrier, and Lightning Strike. Each spell major unlocks only its named spell for every wizard. Wizard health, Wizard armor, and each unlocked spell's scaling nodes cost normal XP.
 
-Add the following right-branch unlocks during CSV skill-tree authoring:
+Add the following normal-XP scaling nodes after their corresponding red-gem spell majors during CSV skill-tree authoring:
 
 | Node type | Effect | Non-upgrade hooks |
 | --- | --- | --- |
-| Wizard Wind Burst unlock | Enables Wind Burst auto-casting. Later levels increase balance-defined knockback distance or daze duration. | Uses the wizard's defensive threat rules. |
-| Wizard Fireball unlock | Enables Fireball auto-casting. Later levels increase balance-defined damage or explosion radius. | Uses the wizard's defensive threat rules. |
+| Wizard Wind Burst scaling | Increases balance-defined knockback distance or daze duration. | Uses the wizard's defensive threat rules. |
+| Wizard Fireball scaling | Increases balance-defined damage or explosion radius. | Uses the wizard's defensive threat rules. |
 | Wizard Barrier scaling | Improves Barrier's balance-defined damage-absorption budget or reduces its cooldown down to its minimum cooldown. | Barrier remains self-only. |
-| Wizard Lightning Strike unlock | Enables Lightning Strike auto-casting. Later levels increase balance-defined single-target damage or reduce its cooldown down to its minimum cooldown. | Uses `PixelArtRPGVFXLite/Textures/Electricity`; Lightning Strike never gains area damage. |
+| Wizard Lightning Strike scaling | Increases balance-defined single-target damage or reduces its cooldown down to its minimum cooldown. | Uses `PixelArtRPGVFXLite/Textures/Electricity`; Lightning Strike never gains area damage. |
 
 Wind Burst, Fireball, Barrier, and Lightning Strike have independent cooldowns. Any skill-tree scalar must reference a corresponding `balance.csv` row rather than a GDScript constant.
 
@@ -90,4 +90,4 @@ Wind Burst, Fireball, Barrier, and Lightning Strike have independent cooldowns. 
 
 Implement each wizard as a stationary damageable entity with an independent ritual visual and a separate spell visual/effect layer, so defensive casts never stop the ritual presentation. Give every spell an explicit wind-up, resolve, and recovery visual state. Wind Burst and Barrier must resolve around their owner; Fireball must resolve its area damage at the impact point; Lightning Strike must resolve on one target only. Ensure an enemy is affected at most once by a single Wind Burst or Fireball explosion.
 
-Before implementation, add every listed balance field and all wizard health/armor values to `game/data/balance.csv`, using the documented values as the source of truth. Keep all spell damage, cooldown, minimum cooldown, range, area, knockback, daze, barrier, and visual-scale values tunable there.
+Before implementation, choose initial values for every listed balance field and add them, along with all wizard health/armor values, to `game/data/balance.csv`. Keep all spell damage, cooldown, minimum cooldown, range, area, knockback, daze, barrier, and visual-scale values tunable there.

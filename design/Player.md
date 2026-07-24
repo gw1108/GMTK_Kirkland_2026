@@ -29,7 +29,7 @@ Abilities the warrior player and the wizards that the player is defending have t
 - **Projectile Interval:** The amount of seconds that must pass in between projectiles if it is a multi projectile sequential attack. Rarely used.
 - **Knockback:** The amount to knockback enemies.
 - **Pool Limit:** The amount of projectiles that are allowed on screen at the same time. If attempting to spawn another projectile but already at the pool limit delete a random projectile for reuse. Default is 70.
-- **Crit Chance:** The chance of getting a critical strike which applies the critical damage bonus. Default is 5%.
+- **Crit Chance:** The chance of getting a critical strike which applies the critical damage bonus. Default is 5%. By default each projectile rolls their critical strike chance separately. If a projectile has AOE or hits multiple enemies, those enemies share the same crit chance roll.
 - **Critical Damage Bonus:** Multiply the damage by the critical damage bonus. Default is 150% so multiply the damage by 1.5.
 - **Blocked by Walls:** If true, the projectile is destroyed when it hits a wall. By default it is true.
 - **Duration:** The duration of the effect or damaging aoe circle. Not the life time of the projectile. Usually not used.
@@ -74,6 +74,7 @@ These attacks are unlocked by skill-tree nodes and use the same automatic, movem
 | --- | --- | --- |
 | "Ice Volley": Thrown weapon uses Ice Effect 01, IceVfx 1 as the projectile. | A projectile fires toward the nearest enemy. When adding multiple projectiles they fire sequentially one after the other using the projectile interval = 0.2s. | Does not benefit from Area or Duration. |
 | "Bubble Shield": Defensive bubble shield. which uses the pipo-btleffect208_192.png animation when the player would take damage from a hit. | It plays in the direction that the player got hit from either left or right (animation is default left). For each upgrade the player will reduce incoming damage to 0. Does not recharge or replenish during the level. Starts with charges = to the number of times it has been upgraded with + charges. | Does not benefit from most upgrades except charges = 1 by default. Has 0 base cooldown. |
+| "Holy Hammer": aoe hammer attack which uses the \Pixel Art Animations - Paladin - FREE Version\VFX5 animation on a slow projectile interval. | Targets the closest enemies to the player. Is an AOE strike. Multiple projectiles causes multiple strikes to occur each targetting a different enemy. | Projectile speed increases the animation of the AOE strike. On the hit frame it does an aoe damage at the targetted enemy. By default has infinite pierce. Is not blocked by walls. |
 
 ### Combo Slash upgrade
 

@@ -12,6 +12,7 @@ The role of this file is to describe common mistakes and confusion points that a
 When you touch code that still hardcodes a tunable, migrate that value to `balance.csv` as part of your change. (`get_value` returns floats only — non-scalar tunables like a Vector2 get one row per component or a single uniform-scale row.)
 - **Dev/debug tooling is the exception:** it is fine to add tooling that makes debugging, testing, or authoring easier (agent-play harnesses, debug overlays, cheat toggles, etc.).
 - **When work is reported done, actually double-check it.** Don't blindly trust an "all N entries covered" style claim — from a subagent, a script, or yourself. Verify completion against ground truth (count outputs, diff against the expected set, run the status check) before reporting done.
+- SourceArt may be modified concurrently while cataloging. If the catalog reports unexpected deleted assets, verify their on-disk presence and `used_by` references before resolving the pending updates.
 - In files and in chat, including inside code blocks, Codex writes text as continuous lines with no hard wrapping at fixed column widths and no leading-space alignment. Structural formatting (headers, separators, indented lists) is fine.
 - Any text the user will copy from the chat (drafts, messages, code, structured content) always goes in a code block so formatting and spacing are preserved.
 

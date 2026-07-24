@@ -63,10 +63,11 @@ The right-hand skill-tree branch retains the GDD and [Player.md](Player.md) entr
 
 Add the following right-branch unlocks during CSV skill-tree authoring:
 
-| Node type | Effect |
-| --- | --- |
+| Node type | Effect | Non-upgrade hooks |
+| --- | --- | --- |
 | Wizard Wind Burst unlock | Enables Wind Burst auto-casting. Later levels improve balance-defined knockback, slow, radius, or cooldown. |
 | Wizard Fireball unlock | Enables Fireball auto-casting. Later levels improve balance-defined damage, area, or cooldown. |
+| "Lightning Strike": Use \PixelArtRPGVFXLite\Textures\Electricity to call down a lightning strike. | Targets random enemies on the map that are visible. | By default only hits one target until the player upgrades it to also do aoe. Then it hits in a small AOE around the target. |
 
 The three spells have independent cooldowns. Any skill-tree scalar must reference a corresponding `balance.csv` row rather than a GDScript constant.
 

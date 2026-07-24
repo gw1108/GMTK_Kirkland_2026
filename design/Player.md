@@ -76,6 +76,7 @@ These attacks are unlocked by skill-tree nodes and use the same automatic, movem
 | "Bubble Shield": Defensive bubble shield. which uses the pipo-btleffect208_192.png animation when the player would take damage from a hit. | It plays in the direction that the player got hit from either left or right (animation is default left). For each upgrade the player will reduce incoming damage to 0. Does not recharge or replenish during the level. Starts with charges = to the number of times it has been upgraded with + charges. | Does not benefit from most upgrades except charges = 1 by default. Has 0 base cooldown. |
 | "Holy Hammer": aoe hammer attack which uses the \Pixel Art Animations - Paladin - FREE Version\VFX5 animation on a slow projectile interval. | Targets the closest enemies to the player. Is an AOE strike. Multiple projectiles causes multiple strikes to occur each targetting a different enemy. | Projectile speed increases the animation of the AOE strike. On the hit frame it does an aoe damage at the targetted enemy. By default has infinite pierce. Is not blocked by walls. |
 
+
 ### Combo Slash upgrade
 
 Combo Slash replaces the default `warrior-single swing 1.png` animation with `warrior-full combo attack with 3 swings.png` from the warrior art folder. It performs three sequential swings at the selected target. The first swing uses normal Slash base damage; the second deals base damage + 2, and the third deals base damage + 4. Each swing has its own active hit frames, so the same enemy can be hit once by each swing if it remains in range.

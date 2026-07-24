@@ -102,6 +102,18 @@ The Lancer tower is a stationary frontline tower represented by art from `Source
 - It can face all eight directions. Whenever an enemy is in attack range, it automatically turns to face that enemy before attacking.
 - Lancer-tower health, armor, damage, attack interval, attack range, and knockback are balance-data fields.
 
+## Traps
+
+Traps are placed during pre-wave, remain at their placement position, and are consumed when an enemy steps on them. Both trap variants use `Bear_Trap.png` as their base sprite; apply a subtle blue tint for Frost Trap and a subtle green tint for Poison Trap so their effect is legible before triggering. Trap capacity, trigger radius, effect radius, duration, damage, and debuff strength are balance-data fields.
+
+### Frost Trap
+
+Frost Trap is the blue slow trap. When an enemy steps on it, the trap is consumed and plays `SourceArt/Super Pixel Effects Gigapack (Free Version) v2.7.0/Super Pixel Effects Gigapack (Free Version)/spritesheet/Impacts/directional_impact_001/directional_impact_001_large_blue/spritesheet.png`, rotated 90 degrees clockwise, as its explosion. Enemies in the explosion area, including the enemy that triggered it, receive a significant movement-speed slow for the configured debuff duration. The explosion is a crowd-control effect and does not deal damage unless a later design change explicitly adds damage.
+
+### Poison Trap
+
+Poison Trap is the green damage-over-time trap. When an enemy steps on it, the trap is consumed and plays `SourceArt/Super Pixel Effects Gigapack (Free Version) v2.7.0/Super Pixel Effects Gigapack (Free Version)/spritesheet/Fantasy Spells/spell_poison_001/spell_poison_001_large_green/spritesheet.png` as its explosion. Enemies in the explosion area, including the enemy that triggered it, receive a damaging poison debuff for the configured duration. While poisoned, each affected enemy displays `SourceArt/Super Pixel Effects Gigapack (Free Version) v2.7.0/Super Pixel Effects Gigapack (Free Version)/spritesheet/Fantasy Spells/status_poison_001/status_poison_001_large_green/spritesheet.png` as its status-effect visual.
+
 ## Skill tree authoring rules
 
 The tree uses the GDD's four directions. Each node type has a CSV-defined maximum level from 1 to 100 and an effect that scales per level. A node's cost follows the GDD's global price rule unless it is a red-gem node. Nodes unlock mechanics only when their level rises from 0 to 1; later levels improve the listed effect.
@@ -152,6 +164,14 @@ The tree uses the GDD's four directions. Each node type has a CSV-defined maximu
 | Barricade health | Increases barricade health. |
 | Barricade armor | Increases barricade armor. |
 | Barricade aggro | Makes barricades draw enemy attention more reliably. |
+| Frost Trap placement unlock | Allows placement of blue Frost Traps during pre-wave. |
+| Frost Trap capacity | Increases the maximum number of Frost Traps that can be placed. |
+| Frost Trap slow strength | Increases the movement-speed reduction applied by Frost Traps. |
+| Frost Trap slow duration | Increases the duration of the Frost Trap slow debuff. |
+| Poison Trap placement unlock | Allows placement of green Poison Traps during pre-wave. |
+| Poison Trap capacity | Increases the maximum number of Poison Traps that can be placed. |
+| Poison Trap damage | Increases Poison Trap poison damage over time. |
+| Poison Trap duration | Increases the duration of the Poison Trap poison debuff. |
 
 ### Left: XP and rewards
 
